@@ -1,0 +1,89 @@
+<ui:composition template="/WEB-INF/template/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroUsuarioBean.editando ? 'Edição de Edição' : 'Novo Usuário'}</ui:define>
+
+	<ui:define name="content">
+		<f:metadata>
+			<o:viewParam name="usuario" value="#{cadastroUsuarioBean.usuario}" />
+			<f:event listener="#{cadastroUsuarioBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1>#{cadastroUsuarioBean.editando ? 'Edição de Usuário' :
+					'Novo Usuário'}</h1>
+			</div>
+		</div>
+
+		<h:form class="aw-content" id="frm">
+
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/usuarios/CadastroUsuario"></p:button>
+					<p:commandButton value="Salvar" id="botaoSalvar"
+						action="#{cadastroUsuarioBean.salvar}" update="@form" />
+				</p:toolbarGroup>
+
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/usuarios/PesquisaUsuarios"></p:button>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<div class="ui-fluid">
+				<p:panel id="basic" style="margin-top:20px;">
+					<h5>* Campos Obrigatórios</h5>
+					<p:panelGrid columns="2" layout="grid"
+						columnClasses="ui-grid-col-2, ui-grid-col-3"
+						styleClass="panelgrid-noborder"
+						style="width: 100%; margin-top:10px;">
+
+						<p:outputLabel value="Nome:" for="nome" />
+						<p:inputMask id="nome" maxlength="65" required="true"
+							requiredMessage="Por favor informe o nome completo"
+							value="#{cadastroUsuarioBean.usuario.nome}" style="width: 70%"  />
+
+
+						<p:outputLabel value="Email:" for="email" />
+						<p:inputMask id="email" maxlength="80" required="true"
+							requiredMessage="Por favor informe o login"
+							value="#{cadastroUsuarioBean.usuario.email}" style="width: 80%" />
+
+
+						<p:outputLabel value="Senha:" for="senha" />
+						<p:password id="senha" maxlength="50" required="true"
+							requiredMessage="Por favor informe  a senha"
+							value="#{cadastroUsuarioBean.senha}" feedback="true"
+							weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte"
+							validatorMessage="Senhas Diferentes"
+							promptLabel="Informe uma Senha" match="senha2" style="width: 50%">
+						</p:password>
+
+						<p:outputLabel value="Confirme a Senha:" for="senha2" />
+						<p:password id="senha2" maxlength="50" required="true"
+							requiredMessage="Por favor confirme  a senha" value="#{cadastroUsuarioBean.senha2}" feedback="true"
+							weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte"
+							promptLabel="Repita a Senha" style="width: 50%" />
+
+						<p:outputLabel value="Grupo" for="grupo" />
+						<p:selectManyCheckbox id="grupo"
+							value="#{cadastroUsuarioBean.gruposSelecionados}" required="true"
+							requiredMessage="Por favor selecione um grupo" style="width: 50%">
+							<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
+								itemLabel="#{grupo.nome}" itemValue="#{grupo.nome}" />
+						</p:selectManyCheckbox>
+					</p:panelGrid>
+				</p:panel>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

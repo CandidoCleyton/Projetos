@@ -1,0 +1,40 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+<url-mapping id="home">
+	<pattern value="/" />
+	<view-id value="/Home.xhtml" />
+</url-mapping>
+<url-mapping id="login">
+	<pattern value="/login" />
+	<view-id value="/legacy/Login.xhtml" />
+</url-mapping>
+<url-mapping id="error">
+	<pattern value="/Erro" />
+	<view-id value="/Erro.xhtml" />
+</url-mapping>
+<url-mapping id="acesso">
+	<pattern value="/acesso" />
+	<view-id value="/AcessoNegado.xhtml" />
+</url-mapping>
+<url-mapping id="a-pesquisa">
+	<pattern value="/arquivos/pesquisa" />
+	<view-id value="/arquivos/PesquisaArquivos.xhtml" />
+</url-mapping>
+<url-mapping id="a-cadastro">
+	<pattern value="/arquivos/cadastro" />
+	<view-id value="/arquivos/CadastroArquivo.xhtml" />
+</url-mapping>
+<url-mapping id="u-pesquisa">
+	<pattern value="/usuarios/pesquisa" />
+	<view-id value="/usuarios/PesquisaUsuarios.xhtml" />
+</url-mapping>
+<url-mapping id="u-cadastro">
+	<pattern value="/usuarios/cadastro" />
+	<view-id value="/usuarios/CadastroUsuario.xhtml" />
+</url-mapping>
+
+
+</pretty-config>

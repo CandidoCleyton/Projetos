@@ -1,0 +1,29 @@
+<ui:composition template="/WEB-INF/template/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Erro</ui:define>
+
+	<ui:define name="content">
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1 class="aw-error-panel__title">Erro no servidor</h1>
+			</div>
+		</div>
+		<div class="aw-error-panel">
+			<h1 class="aw-error-panel__code">
+				<i class="fa  fa-exclamation-triangle"></i> 500
+			</h1>
+
+			<div class="aw-error-panel__description">
+				Desculpe, algo muito estranho aconteceu e não conseguimos processar
+				a sua requisição. Tente de novo ou entre em contato com a gente se
+				precisar de ajuda. <br /> <br /> <a
+					href="javascript:history.back()" class="btn  btn-primary">Voltar</a>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

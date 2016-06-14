@@ -1,0 +1,122 @@
+<ui:composition template="/WEB-INF/template/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa de Arquivos</ui:define>
+
+	<ui:define name="content">
+
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1>Pesquisa de Arquivos</h1>
+			</div>
+		</div>
+
+		<h:form class="aw-content" id="frmPesquisa">
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisar"
+						action="#{pesquisaArquivosBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Novo" outcome="/arquivos/CadastroArquivo" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<div class="ui-fluid">
+				<p:panel id="basic" style="margin-top:20px;">
+					<p:panelGrid columns="2" layout="grid"
+						columnClasses="ui-grid-col-2, ui-grid-col-3"
+						styleClass="panelgrid-noborder"
+						style="width: 100%; margin-top:10px;">
+
+						<p:outputLabel value="Nome Completo:" for="nome"
+							style="font-weight:bold" />
+						<p:inputText id="nome" value="#{pesquisaArquivosBean.filtro.nome}" />
+
+						<p:outputLabel value="CPF:" for="cpf" style="font-weight:bold" />
+						<p:inputMask id="cpf" value="#{pesquisaArquivosBean.filtro.cpf}"
+							mask="999.999.999-99" converter="convertInput" style="width: 50%" />
+
+						<p:outputLabel value="Ano do Processo:" for="anoProcesso"
+							style="font-weight:bold" />
+						<p:inputText id="anoProcesso" size="20"
+							value="#{pesquisaArquivosBean.filtro.anoProcesso}"
+							style="width: 20%" />
+
+					</p:panelGrid>
+				</p:panel>
+			</div>
+			<p:dataTable id="arquivosTable"
+				value="#{pesquisaArquivosBean.arquivosFiltrados}" var="arquivo"
+				style="margin-top: 10px" emptyMessage="Nenhum Arquivo encontrado."
+				reflow="true" rows="20" paginator="true"
+				paginatorAlwaysVisible="true" paginatorPosition="bottom" sortBy="#{arquivo.id}">
+				<p:column headerText="#" style="text-align: center; width: 15px">
+					<h:outputText value="#{arquivo.id}" />
+				</p:column>
+				<p:column headerText="Nome Completo" sortBy="#{arquivo.nome}"
+					style="text-align: center; width: 120px">
+					<h:outputText value="#{arquivo.nome}" />
+				</p:column>
+				<p:column headerText="CPF" sortBy="#{arquivo.cpf}" style="text-align: center; width: 60px">
+					<h:outputText value="#{arquivo.cpf}" type="CPF">
+						<f:converter converterId="CPFConverter" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Ano do Processo" sortBy="#{arquivo.anoProcesso}"
+					style="text-align: center; width: 75px">
+					<h:outputText value="#{arquivo.anoProcesso}" />
+				</p:column>
+				<p:column headerText="Armário" sortBy="#{arquivo.armario}"
+					style="text-align: center; width: 40px">
+					<h:outputText value="#{arquivo.armario}" />
+				</p:column>
+				<p:column headerText="Prateleira"
+					style="text-align: center; width: 30px">
+					<h:outputText value="#{arquivo.prateleira}" />
+				</p:column>
+				<p:column headerText="Caixa" style="text-align: center; width: 20px">
+					<h:outputText value="#{arquivo.caixaArquivo}" />
+				</p:column>
+				<p:column headerText="Insinerado/Digitalizado"
+					style="text-align: center; width: 80px">
+					<h:outputText value="#{arquivo.insinerado}"><f:converter converterId="ConverterBooleanString" /></h:outputText>/
+					<h:outputText value="#{arquivo.digitalizado}"><f:converter converterId="ConverterBooleanString" /></h:outputText>
+				</p:column>
+				<p:column headerText="Ações" style="width: 40px; text-align: center">
+					<p:button outcome="/arquivos/CadastroArquivo" icon="ui-icon-pencil"
+						title="Editar" disabled="#{not seguranca.editarPermitido}">
+						<f:param name="arquivo" value="#{arquivo.id}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confirmacaoExclusao').show()" process="@this"
+						update=":frmPesquisa:confirmacaoExclusaoDialog"
+						style="margin-left: 2px;"  disabled="#{not seguranca.excluirPermitido}">
+						<f:setPropertyActionListener
+							target="#{pesquisaArquivosBean.arquivoSelecionado}"
+							value="#{arquivo}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog header="Exclusão de Arquivo"
+				message="Tem certeza que deseja excluir o Arquivo #{pesquisaArquivosBean.arquivoSelecionado.nome}?"
+				widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog">
+				<p:button value="Não"
+					onclick="PF('confirmacaoExclusao').hide(); return false;"
+					styleClass="ui-confirmdialog-no" />
+				<p:commandButton value="Sim"
+					oncomplete="PF('confirmacaoExclusao').hide();"
+					action="#{pesquisaArquivosBean.excluir}" process="@this"
+					update=":frmPesquisa:arquivosTable"
+					styleClass="ui-confirmdialog-yes" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

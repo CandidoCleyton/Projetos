@@ -1,0 +1,100 @@
+<ui:composition template="/WEB-INF/template/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroArquivoBean.editando ? 'Edição de arquivo' : 'Novo Arquivo'}</ui:define>
+
+	<ui:define name="content">
+		<f:metadata>
+			<o:viewParam name="arquivo" value="#{cadastroArquivoBean.arquivo}" />
+			<f:event listener="#{cadastroArquivoBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1>#{cadastroArquivoBean.editando ? 'Edição de Arquivo' :
+					'Novo Arquivo'}</h1>
+			</div>
+		</div>
+
+		<h:form class="aw-content">
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/arquivos/CadastroArquivo" />
+					<p:commandButton value="Salvar" id="botaoSalvar"
+						action="#{cadastroArquivoBean.salvar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/arquivos/PesquisaArquivos" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<div class="ui-fluid">
+				<p:panel id="basic" style="margin-top:20px;">
+					<h5>* Campos Obrigatórios</h5>
+					<p:panelGrid columns="2" layout="grid"
+						columnClasses="ui-grid-col-2, ui-grid-col-3"
+						styleClass="panelgrid-noborder"
+						style="width: 100%; margin-top:10px;">
+
+						<p:outputLabel class="required" value="Nome Completo:" for="nome"
+							style="font-weight:bold" />
+						<p:inputText id="nome" maxlength="65"
+							value="#{cadastroArquivoBean.arquivo.nome}" />
+
+						<p:outputLabel class="required" value="CPF:" for="cpf"
+							style="font-weight:bold" />
+						<p:inputMask id="cpf" value="#{cadastroArquivoBean.arquivo.cpf}"
+							mask="999.999.999-99" maxlength="11" converter="convertInput"
+							style="width: 50%" />
+
+						<p:outputLabel class="required" value="Ano do Processo:"
+							for="anoProcesso" style="font-weight:bold" />
+						<p:inputText id="anoProcesso" size="5" maxlength="4"
+							value="#{cadastroArquivoBean.arquivo.anoProcesso}"
+							style="width: 20%" />
+
+						<p:outputLabel class="required" value="Armário:" for="armario"
+							style="font-weight:bold" />
+						<p:inputText id="armario" size="5" maxlength="4"
+							value="#{cadastroArquivoBean.arquivo.armario}" style="width: 20%" />
+
+						<p:outputLabel class="required" value="Prateleira:"
+							for="prateleira" style="font-weight:bold" />
+						<p:inputText id="prateleira" size="5" maxlength="1"
+							value="#{cadastroArquivoBean.arquivo.prateleira}"
+							style="width: 20%" />
+
+						<p:outputLabel class="required" value="Caixa:" for="caixaArquivo"
+							style="font-weight:bold" />
+						<p:inputText id="caixaArquivo" size="5" maxlength="4"
+							value="#{cadastroArquivoBean.arquivo.caixaArquivo}"
+							style="width: 20%" />
+
+						<h:panelGroup />
+						<h:panelGroup>
+							<p:selectBooleanCheckbox
+								value="#{cadastroArquivoBean.arquivo.insinerado}" />
+							<h:outputText value="Arquivo Insinerado?" for="insinerado"
+								style="margin-left: 5px; font-weight:bold;" />
+						</h:panelGroup>
+						<h:panelGroup />
+						<h:panelGroup>
+							<p:selectBooleanCheckbox
+								value="#{cadastroArquivoBean.arquivo.digitalizado}" />
+							<h:outputText value="Arquivo Digitalizado?" for="digitalizado"
+								style="margin-left: 5px; font-weight:bold;" />
+						</h:panelGroup>
+					</p:panelGrid>
+				</p:panel>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
